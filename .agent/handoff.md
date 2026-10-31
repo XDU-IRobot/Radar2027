@@ -17,8 +17,8 @@
 
 ## Git 状态
 
-- `include/radar` 本地分支为 `2027radar`，提交 `bef31d0`，包含当时该仓库的 204 项工作区差异。远程推送被 GitHub 拒绝，错误为 `403 Write access to repository not granted`；当前账号对 `XDU-IRobot/radar` 没有写权限，因此分支尚未推送。
-- 根仓库仍有协议适配相关未提交改动和 `changes.md`、2027 协议 PDF 等新增文件。检查根仓库状态后再决定提交范围。
+- 根仓库分支为 `2027radar`，提交 `595c645` 已推送到 `https://github.com/XDU-IRobot/Radar2027.git` 的 `main` 分支，远程名为 `radar2027`。
+- 根仓库将 `include/radar` 记录为子模块指针 `bef31d0`。该提交在 `include/radar` 仓库中尚未推到 `.gitmodules` 指定的 `https://github.com/XDU-IRobot/radar.git`；此前推送被拒绝，错误为 `403 Write access to repository not granted`。根仓库已发布，但从远程完整初始化该子模块仍需解决提交可访问性。
 - `include/radar/libs/librm` 是嵌套仓库，当前仍在 `main` 且有未提交改动，包含 `protocol_2027_v100.hpp`、`protocol_new_v200.hpp` 等文件。父级 `2027radar` 提交只记录了 librm 提交指针，不包含 librm 工作区改动；此前讨论过单独建立 `2027V100` 分支，但尚未创建或推送。
 - Git 状态曾显示 `.agent/full_pipeline.md` 和 `.agent/radar_stability_review.md` 被删除。本次只按新要求重新生成了 `.agent/handoff.md`，没有恢复另外两份文档。
 
