@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/librm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/librm/libs/eternal" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/librm/libs/eternal/vendor/benchmark" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/librm/libs/etl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/librm/libs/kalman" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/librm/libs/rpc_core" vcs="Git" />
+  </component>
+</project>

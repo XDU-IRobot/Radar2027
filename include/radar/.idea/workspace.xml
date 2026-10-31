@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BackendCodeEditorMiscSettings">
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="8" type="long" />
+    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
+    <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="radar" targetName="ExperimentalUpdate" />
+      <config projectName="radar" targetName="NightlyUpdate" />
+      <config projectName="radar" targetName="ContinuousConfigure" />
+      <config projectName="radar" targetName="Nightly" />
+      <config projectName="radar" targetName="radar" />
+      <config projectName="radar" targetName="ExperimentalMemCheck" />
+      <config projectName="radar" targetName="STM32_Drivers" />
+      <config projectName="radar" targetName="ExperimentalCoverage" />
+      <config projectName="radar" targetName="Continuous" />
+      <config projectName="radar" targetName="NightlyMemoryCheck" />
+      <config projectName="radar" targetName="NightlyStart" />
+      <config projectName="radar" targetName="ExperimentalBuild" />
+      <config projectName="radar" targetName="ContinuousStart" />
+      <config projectName="radar" targetName="ContinuousTest" />
+      <config projectName="radar" targetName="NightlyCoverage" />
+      <config projectName="radar" targetName="ContinuousSubmit" />
+      <config projectName="radar" targetName="ExperimentalTest" />
+      <config projectName="radar" targetName="ContinuousMemCheck" />
+      <config projectName="radar" targetName="ardupilot_filter" />
+      <config projectName="radar" targetName="ExperimentalConfigure" />
+      <config projectName="radar" targetName="hipnuc_sdk" />
+      <config projectName="radar" targetName="NightlyBuild" />
+      <config projectName="radar" targetName="ContinuousUpdate" />
+      <config projectName="radar" targetName="ExperimentalStart" />
+      <config projectName="radar" targetName="NightlySubmit" />
+      <config projectName="radar" targetName="NightlyMemCheck" />
+      <config projectName="radar" targetName="rm" />
+      <config projectName="radar" targetName="ContinuousCoverage" />
+      <config projectName="radar" targetName="ExperimentalSubmit" />
+      <config projectName="radar" targetName="ContinuousBuild" />
+      <config projectName="radar" targetName="USB_Device_Library" />
+      <config projectName="radar" targetName="NightlyConfigure" />
+      <config projectName="radar" targetName="Experimental" />
+      <config projectName="radar" targetName="NightlyTest" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="false" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug - Debug" ENABLED="true" FROM_PRESET="true" GENERATION_DIR="$PROJECT_DIR$/build/Debug" />
+      <configuration PROFILE_NAME="Release" ENABLED="false" FROM_PRESET="true" GENERATION_DIR="$PROJECT_DIR$/build/Release" />
+      <configuration PROFILE_NAME="Release - Release" ENABLED="false" FROM_PRESET="true" GENERATION_DIR="$PROJECT_DIR$/build/Release" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0800ddc7-98e1-41b8-87b9-82bfd700f5f8" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/app/UI/UIDrone.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/UI/UIDrone.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/UI/UIuser1.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/UI/UIuser1.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/TaskScheduler.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/app/subReferee/TaskScheduler.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/protocol_user.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/app/subReferee/protocol_user.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/referee_user.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/app/subReferee/referee_user.hpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/LLL/Desktop/radar/radar" value="3CFvXzdwOdIUUIv1IGHFwj7hzT3" />
+      <entry key="_C:/Users/LLL/Desktop/radar/radar/.idea" value="38tDQSASp8NM2d7IDLRreMUerPM" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="2446" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug - Debug" />
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/eternal" source="master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/etl" source="master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/rpc_core" source="master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/kalman" source="master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm" source="main" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/eternal/vendor/benchmark" source="main" />
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/eternal" source="origin/master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/etl" source="origin/master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/kalman" source="origin/master" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/rpc_core" source="origin/master" />
+                <branch-info repo="$PROJECT_DIR$" source="origin/main" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm" source="origin/main" />
+                <branch-info repo="$PROJECT_DIR$/libs/librm/libs/eternal/vendor/benchmark" source="origin/main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="3v2S51Pl" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2025" />
+    <option name="minorVersion" value="2.1" />
+    <option name="productBranch" value="Classic" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="38tDQSASp8NM2d7IDLRreMUerPM" />
+  <component name="ProjectStatusUIService">{
+  &quot;uiKindId&quot;: &quot;Widget&quot;
+}</component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "OpenOCD 下载并运行.RADAR_STLINK.executor": "Run",
+    "OpenOCD 下载并运行.radar.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "cf.advertisement.text.has.clang-format": "true",
+    "cf.advertisement.text.overridden": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "NewJason",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/JasonLian/University/RoboMaster/2026/embedded-rader/radar/libs/librm/src/librm/device/referee",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "CLionExternalConfigurable",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\JasonLian\University\RoboMaster\2026\embedded-rader\radar\libs\librm\src\librm\device\referee" />
+      <recent name="D:\JasonLian\University\RoboMaster\2026\embedded-rader\radar\app" />
+      <recent name="C:\Users\LLL\Desktop\radar\radar\app" />
+      <recent name="C:\Users\LLL\Desktop\radar\radar" />
+      <recent name="C:\Users\chenm\Desktop\Embedded_2026\radar\app" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\JasonLian\University\RoboMaster\2026\embedded-rader\radar\app\UI" />
+      <recent name="D:\JasonLian\University\RoboMaster\2026\embedded-rader\radar\app\subReferee" />
+      <recent name="D:\JasonLian\University\RoboMaster\2026\embedded-rader\radar\app" />
+      <recent name="C:\Users\chenm\Desktop\Embedded_2026\radar" />
+    </key>
+  </component>
+  <component name="RunManager" selected="OpenOCD 下载并运行.RADAR_STLINK">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Continuous" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="Continuous" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousBuild" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousBuild" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousConfigure" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousConfigure" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousCoverage" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousCoverage" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousMemCheck" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousMemCheck" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousStart" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousStart" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousSubmit" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousSubmit" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousTest" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousTest" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContinuousUpdate" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ContinuousUpdate" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Experimental" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="Experimental" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalBuild" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalBuild" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalConfigure" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalConfigure" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalCoverage" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalCoverage" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalMemCheck" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalMemCheck" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalStart" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalStart" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalSubmit" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalSubmit" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalTest" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalTest" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExperimentalUpdate" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ExperimentalUpdate" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Nightly" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="Nightly" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyBuild" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyBuild" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyConfigure" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyConfigure" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyCoverage" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyCoverage" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemCheck" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyMemCheck" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyMemoryCheck" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyMemoryCheck" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyStart" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyStart" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlySubmit" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlySubmit" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyTest" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyTest" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NightlyUpdate" type="CMakeRunConfiguration" factoryName="Application" folderName="CTestDashboardTargets" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="NightlyUpdate" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="STM32_Drivers" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="STM32_Drivers" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="USB_Device_Library" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="USB_Device_Library" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ardupilot_filter" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="ardupilot_filter" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="hipnuc_sdk" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="hipnuc_sdk" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="radar" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="radar" CONFIG_NAME="Debug - Debug" RUN_TARGET_PROJECT_NAME="radar" RUN_TARGET_NAME="radar">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rm" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="rm" CONFIG_NAME="Debug - Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RADAR_STLINK" type="com.jetbrains.cidr.embedded.openocd.conf.type" factoryName="com.jetbrains.cidr.embedded.openocd.conf.factory" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="radar" CONFIG_NAME="Debug - Debug" version="1" RUN_TARGET_PROJECT_NAME="radar" RUN_TARGET_NAME="radar">
+      <openocd version="1" gdb-port="2003" telnet-port="3009" board-config="D:\JasonLian\University\RoboMaster\2026\embedded-rader\openocdSTLINK.cfg" reset-type="RUN" download-type="UPDATED_ONLY">
+        <debugger kind="GDB" isBundled="true" />
+      </openocd>
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="radar" type="com.jetbrains.cidr.embedded.openocd.conf.type" factoryName="com.jetbrains.cidr.embedded.openocd.conf.factory" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="radar" TARGET_NAME="radar" CONFIG_NAME="Debug - Debug" version="1" RUN_TARGET_PROJECT_NAME="radar" RUN_TARGET_NAME="radar">
+      <openocd version="1" gdb-port="3334" telnet-port="4445" board-config="D:\JasonLian\University\RoboMaster\2026\embedded-rader\openocd.cfg" reset-type="RUN" download-type="UPDATED_ONLY">
+        <debugger kind="GDB" isBundled="true" />
+      </openocd>
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake 应用程序.ContinuousBuild" />
+      <item itemvalue="CMake 应用程序.ContinuousConfigure" />
+      <item itemvalue="CMake 应用程序.ContinuousCoverage" />
+      <item itemvalue="CMake 应用程序.ContinuousMemCheck" />
+      <item itemvalue="CMake 应用程序.ContinuousStart" />
+      <item itemvalue="CMake 应用程序.ContinuousSubmit" />
+      <item itemvalue="CMake 应用程序.ContinuousTest" />
+      <item itemvalue="CMake 应用程序.ContinuousUpdate" />
+      <item itemvalue="CMake 应用程序.Continuous" />
+      <item itemvalue="CMake 应用程序.ExperimentalBuild" />
+      <item itemvalue="CMake 应用程序.ExperimentalConfigure" />
+      <item itemvalue="CMake 应用程序.ExperimentalCoverage" />
+      <item itemvalue="CMake 应用程序.ExperimentalMemCheck" />
+      <item itemvalue="CMake 应用程序.ExperimentalStart" />
+      <item itemvalue="CMake 应用程序.ExperimentalSubmit" />
+      <item itemvalue="CMake 应用程序.ExperimentalTest" />
+      <item itemvalue="CMake 应用程序.ExperimentalUpdate" />
+      <item itemvalue="CMake 应用程序.Experimental" />
+      <item itemvalue="CMake 应用程序.NightlyBuild" />
+      <item itemvalue="CMake 应用程序.NightlyConfigure" />
+      <item itemvalue="CMake 应用程序.NightlyCoverage" />
+      <item itemvalue="CMake 应用程序.NightlyMemCheck" />
+      <item itemvalue="CMake 应用程序.NightlyMemoryCheck" />
+      <item itemvalue="CMake 应用程序.NightlyStart" />
+      <item itemvalue="CMake 应用程序.NightlySubmit" />
+      <item itemvalue="CMake 应用程序.NightlyTest" />
+      <item itemvalue="CMake 应用程序.NightlyUpdate" />
+      <item itemvalue="CMake 应用程序.Nightly" />
+      <item itemvalue="CMake 应用程序.STM32_Drivers" />
+      <item itemvalue="CMake 应用程序.USB_Device_Library" />
+      <item itemvalue="CMake 应用程序.ardupilot_filter" />
+      <item itemvalue="CMake 应用程序.hipnuc_sdk" />
+      <item itemvalue="CMake 应用程序.radar" />
+      <item itemvalue="CMake 应用程序.rm" />
+      <item itemvalue="OpenOCD 下载并运行.RADAR_STLINK" />
+      <item itemvalue="OpenOCD 下载并运行.radar" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="0800ddc7-98e1-41b8-87b9-82bfd700f5f8" name="更改" comment="" />
+      <created>1769609957104</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769609957104</updated>
+      <workItem from="1769609958369" duration="1028000" />
+      <workItem from="1769622032535" duration="5000000" />
+      <workItem from="1769627983875" duration="15836000" />
+      <workItem from="1769675306739" duration="3880000" />
+      <workItem from="1770223767635" duration="15000" />
+      <workItem from="1772623603782" duration="4273000" />
+      <workItem from="1772797512032" duration="1795000" />
+      <workItem from="1772890220691" duration="76000" />
+      <workItem from="1772890325302" duration="4105000" />
+      <workItem from="1773567364420" duration="2014000" />
+      <workItem from="1773572963923" duration="581000" />
+      <workItem from="1773579625741" duration="7253000" />
+      <workItem from="1773647718267" duration="2760000" />
+      <workItem from="1773650751657" duration="11500000" />
+      <workItem from="1773739788643" duration="10000" />
+      <workItem from="1773740679105" duration="1807000" />
+      <workItem from="1773809718776" duration="8577000" />
+      <workItem from="1773849993073" duration="1236000" />
+      <workItem from="1773915006798" duration="4000" />
+      <workItem from="1774091436560" duration="1849000" />
+      <workItem from="1775994175350" duration="2173000" />
+      <workItem from="1777877136524" duration="5681000" />
+      <workItem from="1777894429119" duration="24000" />
+      <workItem from="1777904794031" duration="175000" />
+      <workItem from="1777947619792" duration="638000" />
+      <workItem from="1777948311494" duration="81000" />
+      <workItem from="1777948410598" duration="22000" />
+      <workItem from="1777954297397" duration="4461000" />
+      <workItem from="1777962208990" duration="791000" />
+      <workItem from="1777963021627" duration="3413000" />
+      <workItem from="1777970973862" duration="1074000" />
+      <workItem from="1777977702070" duration="5020000" />
+      <workItem from="1777989779629" duration="1937000" />
+      <workItem from="1778154516937" duration="172000" />
+      <workItem from="1778154930045" duration="833000" />
+      <workItem from="1778504901196" duration="6103000" />
+      <workItem from="1778552647336" duration="10863000" />
+      <workItem from="1778567415934" duration="612000" />
+      <workItem from="1778579585589" duration="2834000" />
+      <workItem from="1778682224044" duration="1598000" />
+      <workItem from="1778716155114" duration="16543000" />
+      <workItem from="1778757009521" duration="11723000" />
+      <workItem from="1778776403106" duration="6555000" />
+      <workItem from="1778815970296" duration="1287000" />
+      <workItem from="1778825273732" duration="356000" />
+      <workItem from="1778826786594" duration="4604000" />
+      <workItem from="1778834585781" duration="303000" />
+      <workItem from="1778836529377" duration="438000" />
+      <workItem from="1778895935930" duration="3329000" />
+      <workItem from="1778936785886" duration="270000" />
+      <workItem from="1778943556146" duration="185000" />
+      <workItem from="1778981357954" duration="23310000" />
+      <workItem from="1779072077297" duration="947000" />
+      <workItem from="1779089450948" duration="7860000" />
+      <workItem from="1779127466653" duration="530000" />
+      <workItem from="1779128486923" duration="24000" />
+      <workItem from="1779129276897" duration="1973000" />
+      <workItem from="1779335109566" duration="2733000" />
+      <workItem from="1779341013528" duration="1186000" />
+      <workItem from="1779342239155" duration="32000" />
+      <workItem from="1779499466065" duration="7643000" />
+      <workItem from="1779692557450" duration="1962000" />
+      <workItem from="1779722162749" duration="3000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="com.jetbrains.cidr.embedded.openocd.conf.type">
+        <watch expression="cmd_yaw" />
+        <watch expression="@ ALREADY PREPROCESSED @globals-&gt;dataBox" />
+        <watch expression="globals-&gt;dataBox" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
