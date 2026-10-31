@@ -39,7 +39,8 @@ inline constexpr int kRefereeStateTimeoutMs = 3000;
  */
 template <rm::device::RefereeRevision revision>
 constexpr bool kSupportedMapRobotRelayRevision =
-    revision == rm::device::RefereeRevision::kNewV120 || revision == rm::device::RefereeRevision::kNewV200;
+    revision == rm::device::RefereeRevision::kNewV120 || revision == rm::device::RefereeRevision::kNewV200 ||
+    revision == rm::device::RefereeRevision::k2027V100;
 
 /**
  * @brief 将单位为米的浮点坐标转换为裁判协议中的厘米整数
@@ -64,28 +65,28 @@ inline rm::u16 FloatMetersToCentimeters(float value) {
 inline std::string FormatMapRobotData(const rm::device::MapRobotPosition &map) {
   std::ostringstream oss;
   oss << "{"
-      << "\"opponent_hero_position_x\":" << radar::log::JsonScalar(map.opponent_hero_position_x) << ','
-      << "\"opponent_hero_position_y\":" << radar::log::JsonScalar(map.opponent_hero_position_y) << ','
-      << "\"opponent_engineer_position_x\":" << radar::log::JsonScalar(map.opponent_engineer_position_x) << ','
-      << "\"opponent_engineer_position_y\":" << radar::log::JsonScalar(map.opponent_engineer_position_y) << ','
+      << "\"opponent_heavyengineer_position_x\":" << radar::log::JsonScalar(map.opponent_heavyengineer_position_x) << ','
+      << "\"opponent_heavyengineer_position_y\":" << radar::log::JsonScalar(map.opponent_heavyengineer_position_y) << ','
+      << "\"opponent_reserved_1_x\":" << radar::log::JsonScalar(map.opponent_reserved_1_x) << ','
+      << "\"opponent_reserved_1_y\":" << radar::log::JsonScalar(map.opponent_reserved_1_y) << ','
       << "\"opponent_infantry_3_position_x\":" << radar::log::JsonScalar(map.opponent_infantry_3_position_x) << ','
       << "\"opponent_infantry_3_position_y\":" << radar::log::JsonScalar(map.opponent_infantry_3_position_y) << ','
       << "\"opponent_infantry_4_position_x\":" << radar::log::JsonScalar(map.opponent_infantry_4_position_x) << ','
       << "\"opponent_infantry_4_position_y\":" << radar::log::JsonScalar(map.opponent_infantry_4_position_y) << ','
-      << "\"opponent_aerial_position_x\":" << radar::log::JsonScalar(map.opponent_aerial_position_x) << ','
-      << "\"opponent_aerial_position_y\":" << radar::log::JsonScalar(map.opponent_aerial_position_y) << ','
+      << "\"opponent_reserved_2_x\":" << radar::log::JsonScalar(map.opponent_reserved_2_x) << ','
+      << "\"opponent_reserved_2_y\":" << radar::log::JsonScalar(map.opponent_reserved_2_y) << ','
       << "\"opponent_sentry_position_x\":" << radar::log::JsonScalar(map.opponent_sentry_position_x) << ','
       << "\"opponent_sentry_position_y\":" << radar::log::JsonScalar(map.opponent_sentry_position_y) << ','
-      << "\"ally_hero_position_x\":" << radar::log::JsonScalar(map.ally_hero_position_x) << ','
-      << "\"ally_hero_position_y\":" << radar::log::JsonScalar(map.ally_hero_position_y) << ','
-      << "\"ally_engineer_position_x\":" << radar::log::JsonScalar(map.ally_engineer_position_x) << ','
-      << "\"ally_engineer_position_y\":" << radar::log::JsonScalar(map.ally_engineer_position_y) << ','
+      << "\"ally_heavyengineer_position_x\":" << radar::log::JsonScalar(map.ally_heavyengineer_position_x) << ','
+      << "\"ally_heavyengineer_position_y\":" << radar::log::JsonScalar(map.ally_heavyengineer_position_y) << ','
+      << "\"ally_reserved_1_x\":" << radar::log::JsonScalar(map.ally_reserved_1_x) << ','
+      << "\"ally_reserved_1_y\":" << radar::log::JsonScalar(map.ally_reserved_1_y) << ','
       << "\"ally_infantry_3_position_x\":" << radar::log::JsonScalar(map.ally_infantry_3_position_x) << ','
       << "\"ally_infantry_3_position_y\":" << radar::log::JsonScalar(map.ally_infantry_3_position_y) << ','
       << "\"ally_infantry_4_position_x\":" << radar::log::JsonScalar(map.ally_infantry_4_position_x) << ','
       << "\"ally_infantry_4_position_y\":" << radar::log::JsonScalar(map.ally_infantry_4_position_y) << ','
-      << "\"ally_aerial_position_x\":" << radar::log::JsonScalar(map.ally_aerial_position_x) << ','
-      << "\"ally_aerial_position_y\":" << radar::log::JsonScalar(map.ally_aerial_position_y) << ','
+      << "\"ally_reserved_2_x\":" << radar::log::JsonScalar(map.ally_reserved_2_x) << ','
+      << "\"ally_reserved_2_y\":" << radar::log::JsonScalar(map.ally_reserved_2_y) << ','
       << "\"ally_sentry_position_x\":" << radar::log::JsonScalar(map.ally_sentry_position_x) << ','
       << "\"ally_sentry_position_y\":" << radar::log::JsonScalar(map.ally_sentry_position_y) << "}";
   return oss.str();
@@ -102,55 +103,65 @@ template <rm::device::RefereeRevision revision>
 rm::device::MapRobotPosition BuildMapRobotPosition(const rm::device::RefereeProtocol<revision> &opponent_protocol,
                                                    const rm::device::AllyRobotPosition &ally_position) {
   static_assert(kSupportedMapRobotRelayRevision<revision>,
-                "MapRobotRelay only supports kNewV120 and kNewV200");
+                "MapRobotRelay only supports kNewV120, kNewV200, and k2027V100");
 
   rm::device::MapRobotPosition map{};
   const auto &opponent = opponent_protocol.radar0;
   const auto &ally = ally_position;
 
-  map.opponent_hero_position_x = opponent.opponent_hero_position_x;
-  map.opponent_hero_position_y = opponent.opponent_hero_position_y;
-  map.opponent_engineer_position_x = opponent.opponent_engineer_position_x;
-  map.opponent_engineer_position_y = opponent.opponent_engineer_position_y;
+  if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+    map.opponent_heavyengineer_position_x = opponent.opponent_heavyengineer_position_x;
+    map.opponent_heavyengineer_position_y = opponent.opponent_heavyengineer_position_y;
+  } else {
+    map.opponent_heavyengineer_position_x = opponent.opponent_hero_position_x;
+    map.opponent_heavyengineer_position_y = opponent.opponent_hero_position_y;
+    map.opponent_reserved_1_x = opponent.opponent_engineer_position_x;
+    map.opponent_reserved_1_y = opponent.opponent_engineer_position_y;
+  }
   map.opponent_infantry_3_position_x = opponent.opponent_infantry_3_position_x;
   map.opponent_infantry_3_position_y = opponent.opponent_infantry_3_position_y;
   map.opponent_infantry_4_position_x = opponent.opponent_infantry_4_position_x;
   map.opponent_infantry_4_position_y = opponent.opponent_infantry_4_position_y;
-  map.opponent_aerial_position_x = opponent.opponent_aerial_position_x;
-  map.opponent_aerial_position_y = opponent.opponent_aerial_position_y;
+  if constexpr (revision != rm::device::RefereeRevision::k2027V100) {
+    map.opponent_reserved_2_x = opponent.opponent_aerial_position_x;
+    map.opponent_reserved_2_y = opponent.opponent_aerial_position_y;
+  }
   map.opponent_sentry_position_x = opponent.opponent_sentry_position_x;
   map.opponent_sentry_position_y = opponent.opponent_sentry_position_y;
 
-  map.ally_hero_position_x = FloatMetersToCentimeters(ally.hero_1_x);
-  map.ally_hero_position_y = FloatMetersToCentimeters(ally.hero_1_y);
-  map.ally_engineer_position_x = FloatMetersToCentimeters(ally.engineer_2_x);
-  map.ally_engineer_position_y = FloatMetersToCentimeters(ally.engineer_2_y);
+  map.ally_heavyengineer_position_x = FloatMetersToCentimeters(ally.heavyengineer_1_x);
+  map.ally_heavyengineer_position_y = FloatMetersToCentimeters(ally.heavyengineer_1_y);
+  if constexpr (revision != rm::device::RefereeRevision::k2027V100) {
+    map.ally_reserved_1_x = FloatMetersToCentimeters(ally.reserved_1_x);
+    map.ally_reserved_1_y = FloatMetersToCentimeters(ally.reserved_1_y);
+  }
   map.ally_infantry_3_position_x = FloatMetersToCentimeters(ally.standard_3_x);
   map.ally_infantry_3_position_y = FloatMetersToCentimeters(ally.standard_3_y);
   map.ally_infantry_4_position_x = FloatMetersToCentimeters(ally.standard_4_x);
   map.ally_infantry_4_position_y = FloatMetersToCentimeters(ally.standard_4_y);
-  map.ally_aerial_position_x = 0;
-  map.ally_aerial_position_y = 0;
+  map.ally_reserved_2_x = 0;
+  map.ally_reserved_2_y = 0;
   if (radar::config::kMapRobotUseFixedAllyRobotPositions) {
     const auto &fixed = radar::config::kMapRobotFixedAllyRobotPositionsCm;
-    map.ally_hero_position_x = fixed[0][0];
-    map.ally_hero_position_y = fixed[0][1];
-    map.ally_engineer_position_x = fixed[1][0];
-    map.ally_engineer_position_y = fixed[1][1];
+    map.ally_heavyengineer_position_x = fixed[0][0];
+    map.ally_heavyengineer_position_y = fixed[0][1];
+    if constexpr (revision != rm::device::RefereeRevision::k2027V100) {
+      map.ally_reserved_1_x = fixed[1][0];
+      map.ally_reserved_1_y = fixed[1][1];
+    }
     map.ally_infantry_3_position_x = fixed[2][0];
     map.ally_infantry_3_position_y = fixed[2][1];
     map.ally_infantry_4_position_x = fixed[3][0];
     map.ally_infantry_4_position_y = fixed[3][1];
-    map.ally_aerial_position_x = fixed[4][0];
-    map.ally_aerial_position_y = fixed[4][1];
+    if constexpr (revision != rm::device::RefereeRevision::k2027V100) {
+      map.ally_reserved_2_x = fixed[4][0];
+      map.ally_reserved_2_y = fixed[4][1];
+    }
     map.ally_sentry_position_x = fixed[5][0];
     map.ally_sentry_position_y = fixed[5][1];
   } else if (radar::config::kMapRobotUseFixedAllySentryPosition) {
     map.ally_sentry_position_x = radar::config::kMapRobotFixedAllySentryPositionX;
     map.ally_sentry_position_y = radar::config::kMapRobotFixedAllySentryPositionY;
-  } else {
-    map.ally_sentry_position_x = FloatMetersToCentimeters(ally.reserved_1);
-    map.ally_sentry_position_y = FloatMetersToCentimeters(ally.reserved_2);
   }
 
   return map;
@@ -276,7 +287,7 @@ class MapRobotRelay {
   using TimePoint = Clock::time_point;
 
   static_assert(kSupportedMapRobotRelayRevision<revision>,
-                "MapRobotRelay only supports kNewV120 and kNewV200");
+                "MapRobotRelay only supports kNewV120, kNewV200, and k2027V100");
 
   /**
    * @brief 创建 `0x0305` relay

@@ -33,7 +33,7 @@ enum class RefereeInputSourceMode {
 constexpr bool kReplayLoop = true;
 
 /// 裁判系统协议版本唯一配置入口。
-constexpr auto kRefereeRevision = rm::device::RefereeRevision::kNewV200;
+constexpr auto kRefereeRevision = rm::device::RefereeRevision::k2027V100;
 /// 项目默认日志模式。
 constexpr auto kRadarLogMode = RadarLogMode::kMatch;
 /// 调试模式下允许缺失输入接口，缺失链路对应状态按 0 值处理。
@@ -89,7 +89,7 @@ constexpr const char *kEnemyKeySimulatorBindAddress = "0.0.0.0";
 constexpr int kMapRobotMinSendIntervalMs = 200;
 /// 临时联调：固定 `0x0305` 全部己方机器人坐标，验证选手端地图显示链路。
 constexpr bool kMapRobotUseFixedAllyRobotPositions = false;
-/// 临时固定的己方机器人坐标，顺序为英雄、工程、3 号步兵、4 号步兵、空中、哨兵，单位 cm。
+/// 临时固定的己方机器人坐标，顺序为重装工程、保留位、3 号步兵、4 号步兵、保留位、哨兵，单位 cm。
 constexpr std::array<std::array<rm::u16, 2>, 6> kMapRobotFixedAllyRobotPositionsCm{{
     {{300, 300}},
     {{500, 500}},

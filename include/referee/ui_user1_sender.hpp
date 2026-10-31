@@ -195,15 +195,29 @@ class UiUser1Sender {
     header.character.fillCharacter("RHD", operation, 0, rm::device::UIFigure::Color::Orange, 6,
                                    IsOpponentRed() ? 55 : 1170, 890, 24, 29);
     if (IsOpponentRed()) {
-      std::memcpy(header.data, "SEN7 DRO6 STD4 STD3 ENG2 HRO1", 29);
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        std::memcpy(header.data, "SEN7 --- STD4 STD3 --- HEN1", 27);
+      } else {
+        std::memcpy(header.data, "SEN7 DRO6 STD4 STD3 ENG2 HRO1", 29);
+      }
     } else {
-      std::memcpy(header.data, "HRO1 ENG2 STD3 STD4 DRO6 SEN7", 29);
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        std::memcpy(header.data, "HEN1 --- STD3 STD4 --- SEN7", 27);
+      } else {
+        std::memcpy(header.data, "HRO1 ENG2 STD3 STD4 DRO6 SEN7", 29);
+      }
     }
     return header;
   }
 
   static rm::u8 DefenceBuff(const Protocol &protocol, std::size_t index) {
-    if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+    if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+      const std::array<rm::u8, 5> values{protocol.radar4.enemy_heavyengineer_defence_buff, 0,
+                                        protocol.radar4.enemy_infantry_3_defence_buff,
+                                        protocol.radar4.enemy_infantry_4_defence_buff,
+                                        protocol.radar4.enemy_sentry_defence_buff};
+      return values[index];
+    } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
       const std::array<rm::u8, 5> values{
           protocol.radar4.enemy_hero_defence_buff, protocol.radar4.enemy_engineer_defence_buff,
           protocol.radar4.enemy_infantry_3_defence_buff, protocol.radar4.enemy_infantry_4_defence_buff,
@@ -219,7 +233,15 @@ class UiUser1Sender {
   }
 
   bool IsOpponentRobotDead(const Protocol &protocol, std::size_t index) const {
-    if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+    if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+      if (!radar4_seen_ || index == 1) {
+        return false;
+      }
+      const std::array<rm::u8, 5> statuses{
+          protocol.radar4.enemy_heavyengineer_status, 0, protocol.radar4.enemy_infantry_3_status,
+          protocol.radar4.enemy_infantry_4_status, protocol.radar4.enemy_sentry_status};
+      return statuses[index] == kEnemyRobotDeadStatus;
+    } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
       if (!radar4_seen_) {
         return false;
       }
@@ -237,7 +259,17 @@ class UiUser1Sender {
   }
 
   bool IsOpponentRobotInvincible(const Protocol &protocol, std::size_t index) const {
-    if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+    if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+      if (radar4_seen_ && index != 1) {
+        const std::array<rm::u8, 5> statuses{
+            protocol.radar4.enemy_heavyengineer_status, 0, protocol.radar4.enemy_infantry_3_status,
+            protocol.radar4.enemy_infantry_4_status, protocol.radar4.enemy_sentry_status};
+        if (statuses[index] == kEnemyRobotInvincibleStatus ||
+            statuses[index] == kEnemyRobotInvincibleWeakStatus) {
+          return true;
+        }
+      }
+    } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
       if (radar4_seen_) {
         const std::array<rm::u8, 5> statuses{
             protocol.radar4.enemy_hero_status, protocol.radar4.enemy_engineer_status,
@@ -256,7 +288,7 @@ class UiUser1Sender {
   rm::device::UIFigure7 BuildHp(Operation operation, const Protocol *protocol) const {
     // UIuser1 的嵌入式版本从 robot_custom_data_3 读取 5 个自定义血量值；
     // Linux 主链没有该自定义字段的语义定义，因此使用信息波 0x0A02/radar1
-    // 中同样的对方英雄、工程、3/4 号步兵和哨兵血量。
+    // 中同样的对方机器人血量。
     // 固定客户端屏幕方向并镜像排列：英雄靠近屏幕中心，向外依次为工程、
     // 3/4 号步兵、空中机器人和哨兵。
     const std::array<rm::u16, 5> x = IsOpponentRed() ? std::array<rm::u16, 5>{55, 295, 415, 535, 655}
@@ -265,18 +297,28 @@ class UiUser1Sender {
     std::array<rm::u16, 5> values{};
     if (operation == Operation::Edit && protocol != nullptr) {
       if (IsOpponentRed()) {
-        // 红方位于左侧，图元从左向右对应 SEN7、STD4、STD3、ENG2、HRO1。
-        values = {protocol->radar1.opponent_sentry_HP, protocol->radar1.opponent_infantry_4_HP,
-                  protocol->radar1.opponent_infantry_3_HP, protocol->radar1.opponent_engineer_HP,
-                  protocol->radar1.opponent_hero_HP};
+        if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+          values = {protocol->radar1.opponent_sentry_HP, protocol->radar1.opponent_infantry_4_HP,
+                    protocol->radar1.opponent_infantry_3_HP, 0, protocol->radar1.opponent_heavyengineer_HP};
+        } else {
+          values = {protocol->radar1.opponent_sentry_HP, protocol->radar1.opponent_infantry_4_HP,
+                    protocol->radar1.opponent_infantry_3_HP, protocol->radar1.opponent_engineer_HP,
+                    protocol->radar1.opponent_hero_HP};
+        }
       } else {
-        values = {protocol->radar1.opponent_hero_HP, protocol->radar1.opponent_engineer_HP,
-                  protocol->radar1.opponent_infantry_3_HP, protocol->radar1.opponent_infantry_4_HP,
-                  protocol->radar1.opponent_sentry_HP};
+        if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+          values = {protocol->radar1.opponent_heavyengineer_HP, 0, protocol->radar1.opponent_infantry_3_HP,
+                    protocol->radar1.opponent_infantry_4_HP, protocol->radar1.opponent_sentry_HP};
+        } else {
+          values = {protocol->radar1.opponent_hero_HP, protocol->radar1.opponent_engineer_HP,
+                    protocol->radar1.opponent_infantry_3_HP, protocol->radar1.opponent_infantry_4_HP,
+                    protocol->radar1.opponent_sentry_HP};
+        }
       }
     }
 
     rm::device::UIFigure7 ui{};
+    const auto reserved_hp_index = IsOpponentRed() ? 3U : 1U;
     const auto color = [&](std::size_t index) {
       const auto defence_index = IsOpponentRed() ? 4 - index : index;
       // status=1 或 HP=0 都视为战亡，优先于低血量闪烁并固定显示白色。
@@ -300,9 +342,14 @@ class UiUser1Sender {
       return rm::device::UIFigure::Color::RedBlue;
     };
     ui.figure1.fillIntegrate("RH1", operation, 0, color(0), 4, x[0], y, 20, values[0]);
-    ui.figure2.fillIntegrate("RH2", operation, 0, color(1), 4, x[1], y, 20, values[1]);
+    const auto operation_for_hp = [&](std::size_t index) {
+      return revision == rm::device::RefereeRevision::k2027V100 && index == reserved_hp_index
+                 ? rm::device::UIFigure::Operation::Delete
+                 : operation;
+    };
+    ui.figure2.fillIntegrate("RH2", operation_for_hp(1), 0, color(1), 4, x[1], y, 20, values[1]);
     ui.figure3.fillIntegrate("RH3", operation, 0, color(2), 4, x[2], y, 20, values[2]);
-    ui.figure4.fillIntegrate("RH4", operation, 0, color(3), 4, x[3], y, 20, values[3]);
+    ui.figure4.fillIntegrate("RH4", operation_for_hp(3), 0, color(3), 4, x[3], y, 20, values[3]);
     ui.figure5.fillIntegrate("RH5", operation, 0, color(4), 4, x[4], y, 20, values[4]);
     ui.figure6.fillIntegrate(
         "RTC", operation, 0, rm::device::UIFigure::Color::RedBlue, 4, IsOpponentRed() ? 860 : 988, 900, 18,
@@ -314,7 +361,9 @@ class UiUser1Sender {
   }
 
   static rm::u16 AerialAllowance(const Protocol &protocol) {
-    if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+    if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+      return 0;
+    } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
       return protocol.radar2.opponent_aerial_allowance_ammo;
     } else {
       return protocol.radar2.opponent_drone_allowance_ammo;
@@ -327,21 +376,43 @@ class UiUser1Sender {
     std::array<rm::u16, 5> values{};
     if (operation == Operation::Edit && protocol != nullptr) {
       if (IsOpponentRed()) {
-        values = {protocol->radar2.opponent_sentry_allowance_ammo, AerialAllowance(*protocol),
-                  protocol->radar2.opponent_infantry_4_allowance_ammo,
-                  protocol->radar2.opponent_infantry_3_allowance_ammo, protocol->radar2.opponent_hero_allowance_ammo};
+        if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+          values = {protocol->radar2.opponent_sentry_allowance_ammo,
+                    protocol->radar2.opponent_infantry_4_allowance_ammo,
+                    protocol->radar2.opponent_infantry_3_allowance_ammo, 0,
+                    protocol->radar2.opponent_heavyengineer_allowance_ammo};
+        } else {
+          values = {protocol->radar2.opponent_sentry_allowance_ammo, AerialAllowance(*protocol),
+                    protocol->radar2.opponent_infantry_4_allowance_ammo,
+                    protocol->radar2.opponent_infantry_3_allowance_ammo,
+                    protocol->radar2.opponent_hero_allowance_ammo};
+        }
       } else {
-        values = {protocol->radar2.opponent_hero_allowance_ammo, protocol->radar2.opponent_infantry_3_allowance_ammo,
-                  protocol->radar2.opponent_infantry_4_allowance_ammo, AerialAllowance(*protocol),
-                  protocol->radar2.opponent_sentry_allowance_ammo};
+        if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+          values = {protocol->radar2.opponent_heavyengineer_allowance_ammo,
+                    protocol->radar2.opponent_infantry_3_allowance_ammo,
+                    protocol->radar2.opponent_infantry_4_allowance_ammo, 0,
+                    protocol->radar2.opponent_sentry_allowance_ammo};
+        } else {
+          values = {protocol->radar2.opponent_hero_allowance_ammo,
+                    protocol->radar2.opponent_infantry_3_allowance_ammo,
+                    protocol->radar2.opponent_infantry_4_allowance_ammo, AerialAllowance(*protocol),
+                    protocol->radar2.opponent_sentry_allowance_ammo};
+        }
       }
     }
 
     rm::device::UIFigure5 ui{};
+    const auto reserved_allowance_index = IsOpponentRed() ? 1U : 3U;
+    const auto operation_for_allowance = [&](std::size_t index) {
+      return revision == rm::device::RefereeRevision::k2027V100 && index == reserved_allowance_index
+                 ? rm::device::UIFigure::Operation::Delete
+                 : operation;
+    };
     ui.figure1.fillIntegrate("RA1", operation, 0, rm::device::UIFigure::Color::White, 4, x[0], 810, 16, values[0]);
-    ui.figure2.fillIntegrate("RA2", operation, 0, rm::device::UIFigure::Color::White, 4, x[1], 810, 16, values[1]);
+    ui.figure2.fillIntegrate("RA2", operation_for_allowance(1), 0, rm::device::UIFigure::Color::White, 4, x[1], 810, 16, values[1]);
     ui.figure3.fillIntegrate("RA3", operation, 0, rm::device::UIFigure::Color::White, 4, x[2], 810, 16, values[2]);
-    ui.figure4.fillIntegrate("RA4", operation, 0, rm::device::UIFigure::Color::White, 4, x[3], 810, 16, values[3]);
+    ui.figure4.fillIntegrate("RA4", operation_for_allowance(3), 0, rm::device::UIFigure::Color::White, 4, x[3], 810, 16, values[3]);
     ui.figure5.fillIntegrate("RA5", operation, 0, rm::device::UIFigure::Color::White, 4, x[4], 810, 16, values[4]);
     return ui;
   }

@@ -151,6 +151,15 @@
 
 ## 7. 协议与规则变更
 
+当前手动配置选择《RoboMaster 2027 机甲大师高校系列赛通信协议 V1.0.0》，入口为 [include/config/config.hpp](include/config/config.hpp:36) 中的 `kRefereeRevision`。协议适配时以 `rules/` 中对应版本 PDF 为依据，并保留协议版本之间的隔离。
+
+2027 赛季角色和字段约定：
+
+- `hero` 对应 `heavyengineer`；`engineer` 和 `drone/aerial` 对应的字段槽按保留位处理，不作为机器人状态展示或转发。
+- `0x0301` 下 `0x0100`–`0x0104`、`0x0110`、`0x0120`、`0x0121` 子命令 ID 保持不变；`0x0121 RadarCMD` payload 为 13 字节，包含装甲加固请求计数和加固圆心坐标。
+- `0x0121` 新字段默认保持零值。没有明确比赛策略依据时，不要自行触发装甲加固或改变现有双倍易伤、密钥发送行为。
+- 2027 的 `0x020E` 新增状态和加固区域信息应保持正确解析与可观测；新增字段未接入策略前，不据此推断发送行为。
+
 当规则更新时，优先按以下顺序处理：
 
 1. 检查 `include/radar/libs/librm/src/librm/device/referee/` 下协议头是否已支持新版本
@@ -217,12 +226,10 @@ cmake --build build --target radar -j2
 
 - [README.md](README.md:1)
 - [.agent/handoff.md](.agent/handoff.md:1)
-- [.agent/full_pipeline.md](.agent/full_pipeline.md:1)
-- [.agent/radar_stability_review.md](.agent/radar_stability_review.md:1)
+- [changes.md](changes.md:1)
 
 这些文档分别对应：
 
 - 项目定位和范围
 - 当前代码接手说明
-- 从接收到发送的全流程说明
-- 稳定性问题与优化记录
+- 2027 协议适配差异和检查清单

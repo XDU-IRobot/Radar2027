@@ -1,285 +1,30 @@
-# Handoff
+# 2027 协议适配交接
 
-本文档用于帮助后续 Agent 或开发者快速接手当前仓库，重点只覆盖现在真实存在的 Linux 主程序链路。
+更新时间：2026-10-31
 
-## 1. 当前项目快照
+## 目标与配置
 
-当前项目不是旧的 STM32 `main.cc` 方案，也不是视觉识别工程，而是一条项目侧通信主链路：
+本轮工作将 Radar 项目适配到《RoboMaster 2027 机甲大师高校系列赛通信协议 V1.0.0》。当前配置在 `include/config/config.hpp` 中选择 `RefereeRevision::k2027V100`。差异依据和检查清单记录在 `changes.md`，协议 PDF 位于 `rules/`。
 
-- 接收裁判系统串口主协议
-- 接收信息波 TCP `8001`
-- 接收敌方密钥 TCP `8002/8003`，也支持文件回放
-- 维护协议结构体状态
-- 发送 `0x0305` 与 `0x0301(0x0121)`
-- 记录结构体日志、原始字节流和运行指标
+## 已完成
 
-当前主入口：
+- 2027 协议头提供新赛季字段和内存映射；项目侧解析、日志、地图转发和 UI 展示已按 heavyengineer/reserved 语义调整。
+- `hero` 对应 `heavyengineer`；`engineer`、`drone/aerial` 对应的保留槽不作为有效机器人状态处理。
+- `0x0305` 地图数据保持 48 字节布局，保留槽不再转发旧赛季工程或空中机器人数据。
+- `0x0301` 子命令 ID `0x0100`–`0x0104`、`0x0110`、`0x0120`、`0x0121` 沿用原编号；`0x0121 RadarCMD` 扩展为 13 字节，新增 `armor_fortify_cmd`、`fortify_center_x`、`fortify_center_y`，并有长度编译期断言。
+- `RadarCMD` 新字段默认零初始化，没有加入自动装甲加固策略。
+- 验证命令 `cmake --build build --target radar -j2` 已成功。
 
-- [src/main.cc](/home/hanni/Radar/src/main.cc:45)
+## Git 状态
 
-当前唯一手动配置入口：
+- `include/radar` 本地分支为 `2027radar`，提交 `bef31d0`，包含当时该仓库的 204 项工作区差异。远程推送被 GitHub 拒绝，错误为 `403 Write access to repository not granted`；当前账号对 `XDU-IRobot/radar` 没有写权限，因此分支尚未推送。
+- 根仓库仍有协议适配相关未提交改动和 `changes.md`、2027 协议 PDF 等新增文件。检查根仓库状态后再决定提交范围。
+- `include/radar/libs/librm` 是嵌套仓库，当前仍在 `main` 且有未提交改动，包含 `protocol_2027_v100.hpp`、`protocol_new_v200.hpp` 等文件。父级 `2027radar` 提交只记录了 librm 提交指针，不包含 librm 工作区改动；此前讨论过单独建立 `2027V100` 分支，但尚未创建或推送。
+- Git 状态曾显示 `.agent/full_pipeline.md` 和 `.agent/radar_stability_review.md` 被删除。本次只按新要求重新生成了 `.agent/handoff.md`，没有恢复另外两份文档。
 
-- [include/config/config.hpp](/home/hanni/Radar/include/config/config.hpp:32)
+## 后续事项
 
-## 2. 主程序对象关系
-
-[src/main.cc](/home/hanni/Radar/src/main.cc:45) 启动时做的事情可以概括为：
-
-1. 创建本轮运行日志目录。
-2. 尝试打开裁判系统串口。
-3. 按配置拉起真实 TCP `8001/8002/8003`，或为对应链路创建文件回放输入源。
-4. 创建两个主协议解包器：
-   - `serial_referee`
-   - `info_wave_referee`
-5. 创建发送与业务模块：
-   - `RefereeTxScheduler`
-   - `RadarCommandSender`
-   - `RadarDecisionTree`
-   - `MapRobotRelay`
-   - 两个 `EnemyKeyReceiver`
-6. 给串口链路与信息波链路挂回调。
-7. 进入 [`RunSerialInfoWaveAndKeyTcpLoop(...)`](/home/hanni/Radar/include/referee/referee_input_loop.hpp:58)。
-
-这意味着当前项目的真实主链并不在 [src/main.cc](/home/hanni/Radar/src/main.cc:45) 里展开，而是分散在 `include/referee/*.hpp` 的项目侧封装中。
-
-## 3. 当前输入职责
-
-### 3.1 串口常规链路
-
-文件：
-
-- [include/referee/serial_port.hpp](/home/hanni/Radar/include/referee/serial_port.hpp:75)
-- [include/referee/referee_input_loop.hpp](/home/hanni/Radar/include/referee/referee_input_loop.hpp:58)
-
-职责：
-
-- 读取真实裁判系统字节流
-- 逐字节喂给 `serial_referee`
-- 维护 `0x020B`、`0x020E`、`0x0201` 等常规链路状态
-- 作为所有发包的真实输出口
-
-串口掉线后不会直接退出进程，而是进入后台重连。
-
-### 3.2 信息波链路 `8001`
-
-文件：
-
-- [include/referee/tcp_client.hpp](/home/hanni/Radar/include/referee/tcp_client.hpp:46)
-- [include/referee/referee_input_loop.hpp](/home/hanni/Radar/include/referee/referee_input_loop.hpp:58)
-
-职责：
-
-- 本端只作为 TCP 客户端
-- 主动连接配置中的 `kTcpServerAddress:8001`
-- 逐字节喂给独立的 `info_wave_referee`
-- 维护 `0x0A01~0x0A06` 相关结构体状态
-
-当前 `8001` 的 idle timeout 可在 [include/config/config.hpp](/home/hanni/Radar/include/config/config.hpp:76) 中单独配置；当前代码支持设为 `<=0` 从而保持连接。
-
-### 3.3 敌方密钥链路 `8002/8003`
-
-文件：
-
-- [include/referee/enemy_key_receiver.hpp](/home/hanni/Radar/include/referee/enemy_key_receiver.hpp:72)
-- [include/referee/tcp_client.hpp](/home/hanni/Radar/include/referee/tcp_client.hpp:46)
-
-职责：
-
-- 本端只作为 TCP 客户端
-- 主动连接 `8002/8003`，或从回放文件输入完整协议帧
-- 每个端口内部维护一个独立的 `Referee` 解包器
-- 只接受完整 `0x0A06` 帧，而不是裸 6 字节
-- 成功拿到一次合法密钥后，将其送入 `RadarCommandSender` 的待发队列
-
-说明：
-
-- 两个端口当前语义是“一级密钥 / 二级密钥”两个独立来源。
-- `8002` 在合法接收一级密钥后保持连接，直到 `0x020E` bit3-4 表示的己方干扰波等级实际升级时才关闭；`8003` 仍在一次合法接收后关闭。
-
-### 3.4 文件回放
-
-文件：
-
-- [include/referee/replay_input_source.hpp](/home/hanni/Radar/include/referee/replay_input_source.hpp:43)
-
-当前支持：
-
-- 串口主协议回放
-- 信息波 `8001` 回放
-- 敌方密钥 `8002/8003` 回放
-
-## 4. 当前发送职责
-
-### 4.1 `0x0305` 小地图位置
-
-文件：
-
-- [include/referee/map_robot_relay.hpp](/home/hanni/Radar/include/referee/map_robot_relay.hpp:254)
-
-职责：
-
-- 从信息波 `0x0A01` 维护敌方位置
-- 从串口 `0x0301` 下的 `0x0200 AllyRobotPosition` 维护己方位置
-- 按 5Hz latest-only 节奏发送 `0x0305`
-- 状态过期后自动置 0
-- 记录成功发送和跳过发送原因
-
-调试模式下若允许缺失接口，则即便 `0x0A01` 或 `0x0301/0x0200` 缺失，也会按 0 值继续跑主链路。
-
-### 4.2 `0x0301(0x0121 RadarCMD)`
-
-文件：
-
-- [include/referee/radar_decision_tree.hpp](/home/hanni/Radar/include/referee/radar_decision_tree.hpp:45)
-- [include/referee/radar_command_sender.hpp](/home/hanni/Radar/include/referee/radar_command_sender.hpp:85)
-
-职责：
-
-- `RadarDecisionTree` 读取串口 `0x020E`
-- 自动决定是否申请双倍易伤
-- 自动决定是否切换到下一组预置己方密钥
-- `RadarCommandSender` 负责组包、日志、排队和冷却
-- 当前己方红蓝方由常规链路 `0x0201.robot_status.robot_id` 维护：`9` 为红方、`109` 为蓝方，其他值为未知。
-
-敌方密钥提交 `password_cmd=2` 的特点：
-
-- 走 FIFO 队列
-- 有 10 秒冷却
-- 真正发送后才推进下一条
-
-## 5. 统一发送调度
-
-文件：
-
-- [include/referee/referee_tx_scheduler.hpp](/home/hanni/Radar/include/referee/referee_tx_scheduler.hpp:33)
-
-当前语义：
-
-- `0x0301`：FIFO，高优先级，统一限频
-- `0x0305`：latest-only，只保留最新一帧
-- 真正写串口失败时，会把串口打回断开状态，由主循环自动重连
-
-因此当前项目里不应再让各业务模块直接写串口，而应走调度器。
-
-## 6. 主循环真实职责
-
-文件：
-
-- [include/referee/referee_input_loop.hpp](/home/hanni/Radar/include/referee/referee_input_loop.hpp:58)
-
-当前主循环负责：
-
-- 串口自动重连
-- TCP 自动重连
-- TCP 连接超时与 idle timeout
-- 真实输入读取
-- 文件回放推进
-- 周期任务推进：
-  - `MapRobotRelay::ProcessPeriodic()`
-  - `RadarCommandSender::ProcessPending(...)`
-  - `RefereeTxScheduler::Process()`
-  - `RuntimeMetrics::MaybeFlush()`
-
-当前主程序的“运行感受”主要由这个文件决定。
-
-## 7. 日志与观测点
-
-默认构建下，每次运行会在 `test/logs/<timestamp>/` 下创建新目录。
-
-当前常见日志：
-
-- `main/serial_state.log`
-  - 串口打开失败、掉线、重连
-- `main/tcp_startup.log`
-  - 启动阶段各 TCP 客户端是否拉起
-- `main/tcp_channel_state.log`
-  - TCP 连接通道的状态变化
-- `main/tcp_client_state.log`
-  - TCP 客户端连接完成、断开和超时
-- `main/runtime_metrics.log`
-  - 主循环耗时、日志队列压力、loss_rate 快照
-- `main/0x0305_map_robot_data.log`
-  - 成功发出的 `0x0305`
-- `main/0x0305_map_robot_data_skipped.log`
-  - 因 stale、rate limit 等原因未发送
-- `main/0x0121_*.log`
-  - 自主决策、敌方密钥提交、拒绝原因
-- `raw/*.bin`
-  - 原始串口/TCP 输入字节流
-
-当前代码已经不再创建 `latest/` 快照目录。
-
-## 8. `seq` 与 `loss_rate` 的现实含义
-
-当前至少有四类 `Referee` 解包器实例：
-
-- `serial_referee`
-- `info_wave_referee`
-- `enemy_level1_key_receiver` 内部的 `referee_`
-- `enemy_level2_key_receiver` 内部的 `referee_`
-
-它们彼此独立维护：
-
-- `seq`
-- `received_packets`
-- `loss_rate()`
-
-这意味着：
-
-- 串口和信息波不是共用一组 `seq`
-- `8002/8003` 也不是和主信息波共用同一组 `seq`
-
-需要特别注意的是：
-
-- `loss_rate()` 来自 [include/radar/libs/librm/src/librm/device/referee/referee.hpp](/home/hanni/Radar/include/radar/libs/librm/src/librm/device/referee/referee.hpp:1)
-- 它默认假设发送端 `seq` 按 256 周期滚动
-- 对信息波 TCP 流来说，这个值不一定等于真实网络丢包率
-- 如果发送端 `seq` 语义不符合这个假设，`loss_rate` 甚至可能出现负值或明显失真
-
-因此排查 TCP 丢包时，应优先结合：
-
-- 原始 `raw/*.bin`
-- `seq` 序列是否跳变
-- `0x0A01` 实际到达间隔
-- `runtime_metrics.log`
-
-不要只盯 `loss_rate()` 一个指标。
-
-## 9. 当前修改边界
-
-优先改：
-
-- `src/`
-- `include/config/`
-- `include/referee/`
-- `include/log/`
-- `.agent/`
-
-尽量不要广泛改动：
-
-- `include/radar/`
-
-原因：
-
-- `include/radar/` 是协议层和第三方 `librm` 子树
-- 当前仓库对 `include/radar` 的改动应该尽量少且明确
-
-## 10. 接手时最先读什么
-
-如果你是第一次接手当前仓库，建议阅读顺序：
-
-1. [README.md](/home/hanni/Radar/README.md:1)
-2. [src/main.cc](/home/hanni/Radar/src/main.cc:45)
-3. [include/config/config.hpp](/home/hanni/Radar/include/config/config.hpp:32)
-4. [include/referee/referee_input_loop.hpp](/home/hanni/Radar/include/referee/referee_input_loop.hpp:58)
-5. [include/referee/map_robot_relay.hpp](/home/hanni/Radar/include/referee/map_robot_relay.hpp:254)
-6. [include/referee/radar_command_sender.hpp](/home/hanni/Radar/include/referee/radar_command_sender.hpp:85)
-7. [include/referee/referee_tx_scheduler.hpp](/home/hanni/Radar/include/referee/referee_tx_scheduler.hpp:33)
-8. [.agent/radar_stability_review.md](/home/hanni/Radar/.agent/radar_stability_review.md:1)
-
-如果问题是：
-
-- TCP 连不上：优先看 [include/referee/tcp_client.hpp](/home/hanni/Radar/include/referee/tcp_client.hpp:46)、[include/referee/tcp_connection_log.hpp](/home/hanni/Radar/include/referee/tcp_connection_log.hpp:23) 和 `main/tcp_*.log`
-- `0x0305` 发送异常：优先看 [include/referee/map_robot_relay.hpp](/home/hanni/Radar/include/referee/map_robot_relay.hpp:254)、[include/referee/referee_tx_scheduler.hpp](/home/hanni/Radar/include/referee/referee_tx_scheduler.hpp:33)
-- `0x0121` 发送异常：优先看 [include/referee/radar_decision_tree.hpp](/home/hanni/Radar/include/referee/radar_decision_tree.hpp:45)、[include/referee/radar_command_sender.hpp](/home/hanni/Radar/include/referee/radar_command_sender.hpp:85)
-- 运行卡顿或日志过多：优先看 [include/log/log_backend.hpp](/home/hanni/Radar/include/log/log_backend.hpp:129) 与 `runtime_metrics.log`
+1. 请仓库管理员给当前 GitHub 账号授予 `XDU-IRobot/radar` 写权限。授权后运行 `git -C include/radar push -u origin 2027radar`。
+2. 在 `include/radar/libs/librm` 检查变更后创建并提交 `2027V100` 分支，再推送到 librm 远程。注意 librm 工作区包含大量文件差异，提交前核对暂存内容。
+3. 按 `changes.md` 复核仍未确认的命令映射和业务消费情况，尤其是 2027 命令表中不再出现的旧命令，以及新增加固字段是否需要纳入比赛策略。
+4. 协议和项目侧改动继续完成后，重新构建 `radar`，并检查 2027 保留槽和 `0x0121` 发送帧长度。

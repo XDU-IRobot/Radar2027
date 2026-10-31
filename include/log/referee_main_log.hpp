@@ -33,7 +33,8 @@ namespace radar::log {
  */
 template <rm::device::RefereeRevision revision>
 constexpr bool kSupportedMainLogRevision =
-    revision == rm::device::RefereeRevision::kNewV120 || revision == rm::device::RefereeRevision::kNewV200;
+    revision == rm::device::RefereeRevision::kNewV120 || revision == rm::device::RefereeRevision::kNewV200 ||
+    revision == rm::device::RefereeRevision::k2027V100;
 
 /**
  * @brief 生成当前时间戳字符串
@@ -200,7 +201,8 @@ inline std::string JsonArray(const T *data, std::size_t size) {
  */
 template <rm::device::RefereeRevision revision>
 inline std::string MainCmdName(rm::u16 cmd_id) {
-  static_assert(kSupportedMainLogRevision<revision>, "RefereeMainLogger only supports kNewV120 and kNewV200");
+  static_assert(kSupportedMainLogRevision<revision>,
+                "RefereeMainLogger only supports kNewV120, kNewV200, and k2027V100");
   using Cmd = rm::device::RefereeCmdId<revision>;
 
   switch (cmd_id) {
@@ -242,19 +244,19 @@ inline std::string MainCmdName(rm::u16 cmd_id) {
       return "radar_info";
     case Cmd::kRobotInteractionData:
       return "robot_interaction_data";
-    case Cmd::kCustomRobotData:
+    case 0x0302:
       return "custom_robot_data";
     case Cmd::kMapCommand:
       return "map_command";
     case Cmd::kMapRobotData:
       return "map_robot_data";
-    case Cmd::kCustomClientData:
+    case 0x0306:
       return "custom_client_data";
     case Cmd::kMapData:
       return "map_data";
     case Cmd::kCustomInfo:
       return "custom_info";
-    case Cmd::kRobotCustomData:
+    case 0x0309:
       return "robot_custom_data";
     case Cmd::kRobotCustomData2:
       return "robot_custom_data_2";
@@ -286,7 +288,8 @@ inline std::string MainCmdName(rm::u16 cmd_id) {
  */
 template <rm::device::RefereeRevision revision>
 inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereeProtocol<revision> &protocol) {
-  static_assert(kSupportedMainLogRevision<revision>, "RefereeMainLogger only supports kNewV120 and kNewV200");
+  static_assert(kSupportedMainLogRevision<revision>,
+                "RefereeMainLogger only supports kNewV120, kNewV200, and k2027V100");
   using Cmd = rm::device::RefereeCmdId<revision>;
   std::ostringstream oss;
 
@@ -308,19 +311,34 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     case Cmd::kGameRobotHp: {
       const auto &data = protocol.game_robot_HP;
       oss << "{"
-          << "\"ally_1_robot_HP\":" << JsonScalar(data.ally_1_robot_HP) << ','
-          << "\"ally_2_robot_HP\":" << JsonScalar(data.ally_2_robot_HP) << ','
-          << "\"ally_3_robot_HP\":" << JsonScalar(data.ally_3_robot_HP) << ','
-          << "\"ally_4_robot_HP\":" << JsonScalar(data.ally_4_robot_HP) << ',';
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
-        oss << "\"damage_difference\":" << JsonScalar(data.damage_difference) << ','
+          << "\"ally_1_robot_HP\":" << JsonScalar(data.ally_1_robot_HP) << ',';
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "\"reserved\":" << JsonScalar(data.reserved) << ','
+            << "\"ally_3_robot_HP\":" << JsonScalar(data.ally_3_robot_HP) << ','
+            << "\"ally_4_robot_HP\":" << JsonScalar(data.ally_4_robot_HP) << ','
+            << "\"damage_difference\":" << JsonScalar(data.damage_difference) << ','
+            << "\"ally_7_robot_HP\":" << JsonScalar(data.ally_7_robot_HP) << ','
+            << "\"outpost_R_HP\":" << JsonScalar(data.outpost_R_HP) << ','
+            << "\"ally_base_HP\":" << JsonScalar(data.ally_base_HP) << ','
+            << "\"outpost_B_HP\":" << JsonScalar(data.outpost_B_HP) << ','
+            << "\"enemy_base_HP\":" << JsonScalar(data.enemy_base_HP) << ','
+            << "\"ally_control_degree\":" << JsonScalar(data.ally_control_degree) << ','
+            << "\"enemy_control_degree\":" << JsonScalar(data.enemy_control_degree) << "}";
+      } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+        oss << "\"ally_2_robot_HP\":" << JsonScalar(data.ally_2_robot_HP) << ','
+            << "\"ally_3_robot_HP\":" << JsonScalar(data.ally_3_robot_HP) << ','
+            << "\"ally_4_robot_HP\":" << JsonScalar(data.ally_4_robot_HP) << ','
+            << "\"damage_difference\":" << JsonScalar(data.damage_difference) << ','
             << "\"ally_7_robot_HP\":" << JsonScalar(data.ally_7_robot_HP) << ','
             << "\"ally_outpost_HP\":" << JsonScalar(data.ally_outpost_HP) << ','
             << "\"ally_base_HP\":" << JsonScalar(data.ally_base_HP) << ','
             << "\"enemy_outpost_HP\":" << JsonScalar(data.enemy_outpost_HP) << ','
             << "\"enemy_base_HP\":" << JsonScalar(data.enemy_base_HP) << "}";
       } else {
-        oss << "\"reserved\":" << JsonScalar(data.reserved) << ','
+        oss << "\"ally_2_robot_HP\":" << JsonScalar(data.ally_2_robot_HP) << ','
+            << "\"ally_3_robot_HP\":" << JsonScalar(data.ally_3_robot_HP) << ','
+            << "\"ally_4_robot_HP\":" << JsonScalar(data.ally_4_robot_HP) << ','
+            << "\"reserved\":" << JsonScalar(data.reserved) << ','
             << "\"ally_7_robot_HP\":" << JsonScalar(data.ally_7_robot_HP) << ','
             << "\"ally_outpost_HP\":" << JsonScalar(data.ally_outpost_HP) << ','
             << "\"ally_base_HP\":" << JsonScalar(data.ally_base_HP) << "}";
@@ -329,7 +347,11 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     }
     case Cmd::kEventData: {
       const auto &data = protocol.event_data;
-      oss << "{\"event_data\":" << JsonScalar(data.event_data) << "}";
+      oss << "{\"event_data\":" << JsonScalar(data.event_data);
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << ",\"event_data_2\":" << JsonScalar(data.event_data_2);
+      }
+      oss << "}";
       return oss.str();
     }
     case Cmd::kRefereeWarning: {
@@ -357,7 +379,7 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
           << "\"shooter_barrel_cooling_value\":" << JsonScalar(data.shooter_barrel_cooling_value) << ','
           << "\"shooter_barrel_heat_limit\":" << JsonScalar(data.shooter_barrel_heat_limit) << ','
           << "\"chassis_power_limit\":" << JsonScalar(data.chassis_power_limit) << ',';
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::kNewV200 || revision == rm::device::RefereeRevision::k2027V100) {
         oss << "\"bullet_speed_limit\":" << JsonScalar(data.bullet_speed_limit) << ',';
       }
       oss << "\"power_management_gimbal_output\":" << JsonScalar(data.power_management_gimbal_output) << ','
@@ -391,15 +413,24 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
           << "\"cooling_buff\":" << JsonScalar(data.cooling_buff) << ','
           << "\"defence_buff\":" << JsonScalar(data.defence_buff) << ','
           << "\"vulnerability_buff\":" << JsonScalar(data.vulnerability_buff) << ','
-          << "\"attack_buff\":" << JsonScalar(data.attack_buff) << ','
-          << "\"remaining_energy\":" << JsonScalar(data.remaining_energy) << "}";
+          << "\"attack_buff\":" << JsonScalar(data.attack_buff);
+      if constexpr (revision != rm::device::RefereeRevision::k2027V100) {
+        oss << ',' << "\"remaining_energy\":" << JsonScalar(data.remaining_energy);
+      }
+      oss << "}";
       return oss.str();
     }
     case Cmd::kHurtData: {
       const auto &data = protocol.hurt_data;
       oss << "{"
           << "\"armor_id\":" << JsonScalar(data.armor_id) << ','
-          << "\"HP_deduction_reason\":" << JsonScalar(data.HP_deduction_reason) << "}";
+          << "\"HP_deduction_reason\":" << JsonScalar(data.HP_deduction_reason);
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << ",\"hit_sequence\":" << JsonScalar(data.hit_sequence) << ','
+            << "\"hit_position_x\":" << JsonScalar(data.hit_position_x) << ','
+            << "\"hit_position_y\":" << JsonScalar(data.hit_position_y);
+      }
+      oss << "}";
       return oss.str();
     }
     case Cmd::kShootData: {
@@ -438,17 +469,30 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     }
     case Cmd::kGroundRobotPosition: {
       const auto &data = protocol.ground_robot_position;
-      oss << "{"
-          << "\"hero_x\":" << JsonScalar(data.hero_x) << ','
-          << "\"hero_y\":" << JsonScalar(data.hero_y) << ','
-          << "\"engineer_x\":" << JsonScalar(data.engineer_x) << ','
-          << "\"engineer_y\":" << JsonScalar(data.engineer_y) << ','
-          << "\"standard_3_x\":" << JsonScalar(data.standard_3_x) << ','
-          << "\"standard_3_y\":" << JsonScalar(data.standard_3_y) << ','
-          << "\"standard_4_x\":" << JsonScalar(data.standard_4_x) << ','
-          << "\"standard_4_y\":" << JsonScalar(data.standard_4_y) << ','
-          << "\"reserved\":" << JsonScalar(data.reserved) << ','
-          << "\"reserved_2\":" << JsonScalar(data.reserved_2) << "}";
+      oss << "{";
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "\"heavyengineer_x\":" << JsonScalar(data.heavyengineer_x) << ','
+            << "\"heavyengineer_y\":" << JsonScalar(data.heavyengineer_y) << ','
+            << "\"reserved_1\":" << JsonScalar(data.reserved_1) << ','
+            << "\"reserved_2\":" << JsonScalar(data.reserved_2) << ','
+            << "\"standard_3_x\":" << JsonScalar(data.standard_3_x) << ','
+            << "\"standard_3_y\":" << JsonScalar(data.standard_3_y) << ','
+            << "\"standard_4_x\":" << JsonScalar(data.standard_4_x) << ','
+            << "\"standard_4_y\":" << JsonScalar(data.standard_4_y) << ','
+            << "\"reserved_3\":" << JsonScalar(data.reserved_3) << ','
+            << "\"reserved_4\":" << JsonScalar(data.reserved_4) << "}";
+      } else {
+        oss << "\"hero_x\":" << JsonScalar(data.hero_x) << ','
+            << "\"hero_y\":" << JsonScalar(data.hero_y) << ','
+            << "\"engineer_x\":" << JsonScalar(data.engineer_x) << ','
+            << "\"engineer_y\":" << JsonScalar(data.engineer_y) << ','
+            << "\"standard_3_x\":" << JsonScalar(data.standard_3_x) << ','
+            << "\"standard_3_y\":" << JsonScalar(data.standard_3_y) << ','
+            << "\"standard_4_x\":" << JsonScalar(data.standard_4_x) << ','
+            << "\"standard_4_y\":" << JsonScalar(data.standard_4_y) << ','
+            << "\"reserved\":" << JsonScalar(data.reserved) << ','
+            << "\"reserved_2\":" << JsonScalar(data.reserved_2) << "}";
+      }
       return oss.str();
     }
     case Cmd::kSentryInfo: {
@@ -456,7 +500,7 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
       oss << "{"
           << "\"sentry_info\":" << JsonScalar(data.sentry_info) << ','
           << "\"sentry_info_2\":" << JsonScalar(data.sentry_info_2);
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::kNewV200 || revision == rm::device::RefereeRevision::k2027V100) {
         oss << ",\"sentry_info_3\":" << JsonScalar(data.sentry_info_3);
       }
       oss << "}";
@@ -464,7 +508,14 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     }
     case Cmd::kRadarInfo: {
       const auto &data = protocol.radar_info;
-      oss << "{\"radar_info\":" << JsonScalar(data.radar_info) << "}";
+      oss << "{\"radar_info\":" << JsonScalar(data.radar_info);
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << ",\"radar_info_2\":" << JsonScalar(data.radar_info_2) << ','
+            << "\"fortify_center_x\":" << JsonScalar(data.fortify_center_x) << ','
+            << "\"fortify_center_y\":" << JsonScalar(data.fortify_center_y) << ','
+            << "\"fortify_radius\":" << JsonScalar(data.fortify_radius);
+      }
+      oss << "}";
       return oss.str();
     }
     case Cmd::kRobotInteractionData: {
@@ -477,7 +528,7 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
           << "}";
       return oss.str();
     }
-    case Cmd::kCustomRobotData: {
+    case 0x0302: {
       const auto &data = protocol.custom_robot_data;
       oss << "{\"data\":\"" << HexBytes(data.data, sizeof(data.data)) << "\"}";
       return oss.str();
@@ -495,7 +546,32 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     case Cmd::kMapRobotData: {
       const auto &data = protocol.map_robot_data;
       oss << "{";
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "\"opponent_heavyengineer_position_x\":" << JsonScalar(data.opponent_heavyengineer_position_x) << ','
+            << "\"opponent_heavyengineer_position_y\":" << JsonScalar(data.opponent_heavyengineer_position_y) << ','
+            << "\"reserved_1\":" << JsonScalar(data.reserved_1) << ','
+            << "\"reserved_2\":" << JsonScalar(data.reserved_2) << ','
+            << "\"opponent_infantry_3_position_x\":" << JsonScalar(data.opponent_infantry_3_position_x) << ','
+            << "\"opponent_infantry_3_position_y\":" << JsonScalar(data.opponent_infantry_3_position_y) << ','
+            << "\"opponent_infantry_4_position_x\":" << JsonScalar(data.opponent_infantry_4_position_x) << ','
+            << "\"opponent_infantry_4_position_y\":" << JsonScalar(data.opponent_infantry_4_position_y) << ','
+            << "\"reserved_3\":" << JsonScalar(data.reserved_3) << ','
+            << "\"reserved_4\":" << JsonScalar(data.reserved_4) << ','
+            << "\"opponent_sentry_position_x\":" << JsonScalar(data.opponent_sentry_position_x) << ','
+            << "\"opponent_sentry_position_y\":" << JsonScalar(data.opponent_sentry_position_y) << ','
+            << "\"ally_heavyengineer_position_x\":" << JsonScalar(data.ally_heavyengineer_position_x) << ','
+            << "\"ally_heavyengineer_position_y\":" << JsonScalar(data.ally_heavyengineer_position_y) << ','
+            << "\"reserved_5\":" << JsonScalar(data.reserved_5) << ','
+            << "\"reserved_6\":" << JsonScalar(data.reserved_6) << ','
+            << "\"ally_infantry_3_position_x\":" << JsonScalar(data.ally_infantry_3_position_x) << ','
+            << "\"ally_infantry_3_position_y\":" << JsonScalar(data.ally_infantry_3_position_y) << ','
+            << "\"ally_infantry_4_position_x\":" << JsonScalar(data.ally_infantry_4_position_x) << ','
+            << "\"ally_infantry_4_position_y\":" << JsonScalar(data.ally_infantry_4_position_y) << ','
+            << "\"reserved_7\":" << JsonScalar(data.reserved_7) << ','
+            << "\"reserved_8\":" << JsonScalar(data.reserved_8) << ','
+            << "\"ally_sentry_position_x\":" << JsonScalar(data.ally_sentry_position_x) << ','
+            << "\"ally_sentry_position_y\":" << JsonScalar(data.ally_sentry_position_y) << "}";
+      } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
         oss << "\"opponent_hero_position_x\":" << JsonScalar(data.opponent_hero_position_x) << ','
             << "\"opponent_hero_position_y\":" << JsonScalar(data.opponent_hero_position_y) << ','
             << "\"opponent_engineer_position_x\":" << JsonScalar(data.opponent_engineer_position_x) << ','
@@ -536,7 +612,7 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
       }
       return oss.str();
     }
-    case Cmd::kCustomClientData: {
+    case 0x0306: {
       const auto &data = protocol.custom_client_data;
       oss << "{"
           << "\"key_value\":" << JsonScalar(data.key_value) << ','
@@ -567,7 +643,7 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
           << "}";
       return oss.str();
     }
-    case Cmd::kRobotCustomData: {
+    case 0x0309: {
       const auto &data = protocol.robot_custom_data;
       oss << "{\"data\":\"" << HexBytes(data.data, sizeof(data.data)) << "\"}";
       return oss.str();
@@ -585,7 +661,20 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     case Cmd::kRadar0: {
       const auto &data = protocol.radar0;
       oss << "{";
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "\"opponent_heavyengineer_position_x\":" << JsonScalar(data.opponent_heavyengineer_position_x) << ','
+            << "\"opponent_heavyengineer_position_y\":" << JsonScalar(data.opponent_heavyengineer_position_y) << ','
+            << "\"reserved_1\":" << JsonScalar(data.reserved_1) << ','
+            << "\"reserved_2\":" << JsonScalar(data.reserved_2) << ','
+            << "\"opponent_infantry_3_position_x\":" << JsonScalar(data.opponent_infantry_3_position_x) << ','
+            << "\"opponent_infantry_3_position_y\":" << JsonScalar(data.opponent_infantry_3_position_y) << ','
+            << "\"opponent_infantry_4_position_x\":" << JsonScalar(data.opponent_infantry_4_position_x) << ','
+            << "\"opponent_infantry_4_position_y\":" << JsonScalar(data.opponent_infantry_4_position_y) << ','
+            << "\"reserved_3\":" << JsonScalar(data.reserved_3) << ','
+            << "\"reserved_4\":" << JsonScalar(data.reserved_4) << ','
+            << "\"opponent_sentry_position_x\":" << JsonScalar(data.opponent_sentry_position_x) << ','
+            << "\"opponent_sentry_position_y\":" << JsonScalar(data.opponent_sentry_position_y) << "}";
+      } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
         oss << "\"opponent_hero_position_x\":" << JsonScalar(data.opponent_hero_position_x) << ','
             << "\"opponent_hero_position_y\":" << JsonScalar(data.opponent_hero_position_y) << ','
             << "\"opponent_engineer_position_x\":" << JsonScalar(data.opponent_engineer_position_x) << ','
@@ -617,7 +706,14 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     case Cmd::kRadar1: {
       const auto &data = protocol.radar1;
       oss << "{";
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "\"opponent_heavyengineer_HP\":" << JsonScalar(data.opponent_heavyengineer_HP) << ','
+            << "\"reserved_1\":" << JsonScalar(data.reserved_1) << ','
+            << "\"opponent_infantry_3_HP\":" << JsonScalar(data.opponent_infantry_3_HP) << ','
+            << "\"opponent_infantry_4_HP\":" << JsonScalar(data.opponent_infantry_4_HP) << ','
+            << "\"reserved_2\":" << JsonScalar(data.reserved_2) << ','
+            << "\"opponent_sentry_HP\":" << JsonScalar(data.opponent_sentry_HP) << "}";
+      } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
         oss << "\"opponent_hero_HP\":" << JsonScalar(data.opponent_hero_HP) << ','
             << "\"opponent_engineer_HP\":" << JsonScalar(data.opponent_engineer_HP) << ','
             << "\"opponent_infantry_3_HP\":" << JsonScalar(data.opponent_infantry_3_HP) << ','
@@ -637,7 +733,13 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
     case Cmd::kRadar2: {
       const auto &data = protocol.radar2;
       oss << "{";
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "\"opponent_heavyengineer_allowance_ammo\":" << JsonScalar(data.opponent_heavyengineer_allowance_ammo) << ','
+            << "\"opponent_infantry_3_allowance_ammo\":" << JsonScalar(data.opponent_infantry_3_allowance_ammo) << ','
+            << "\"opponent_infantry_4_allowance_ammo\":" << JsonScalar(data.opponent_infantry_4_allowance_ammo) << ','
+            << "\"reserved\":" << JsonScalar(data.reserved) << ','
+            << "\"opponent_sentry_allowance_ammo\":" << JsonScalar(data.opponent_sentry_allowance_ammo) << "}";
+      } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
         oss << "\"opponent_hero_allowance_ammo\":" << JsonScalar(data.opponent_hero_allowance_ammo) << ','
             << "\"opponent_infantry_3_allowance_ammo\":" << JsonScalar(data.opponent_infantry_3_allowance_ammo) << ','
             << "\"opponent_infantry_4_allowance_ammo\":" << JsonScalar(data.opponent_infantry_4_allowance_ammo) << ','
@@ -657,12 +759,52 @@ inline std::string FormatMainPayload(rm::u16 cmd_id, const rm::device::RefereePr
       oss << "{"
           << "\"enemy_remaining_gold_coin\":" << JsonScalar(data.enemy_remaining_gold_coin) << ','
           << "\"enemy_total_gold_coin\":" << JsonScalar(data.enemy_total_gold_coin) << ','
-          << "\"enemy_status\":" << JsonScalar(data.enemy_status) << "}";
+          << "\"enemy_status\":" << JsonScalar(data.enemy_status);
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << ',' << "\"enemy_status_2\":" << JsonScalar(data.enemy_status_2);
+      }
+      oss << "}";
       return oss.str();
     }
     case Cmd::kRadar4: {
       const auto &data = protocol.radar4;
-      if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
+      if constexpr (revision == rm::device::RefereeRevision::k2027V100) {
+        oss << "{"
+            << "\"enemy_heavyengineer_hp_buff\":" << JsonScalar(data.enemy_heavyengineer_hp_buff) << ','
+            << "\"enemy_heavyengineer_cooling_buff\":" << JsonScalar(data.enemy_heavyengineer_cooling_buff) << ','
+            << "\"enemy_heavyengineer_defence_buff\":" << JsonScalar(data.enemy_heavyengineer_defence_buff) << ','
+            << "\"enemy_heavyengineer_vulnerability_buff\":" << JsonScalar(data.enemy_heavyengineer_vulnerability_buff) << ','
+            << "\"enemy_heavyengineer_attack_buff\":" << JsonScalar(data.enemy_heavyengineer_attack_buff) << ','
+            << "\"reserved_7\":" << JsonScalar(data.reserved_7) << ','
+            << "\"reserved_8\":" << JsonScalar(data.reserved_8) << ','
+            << "\"reserved_10\":" << JsonScalar(data.reserved_10) << ','
+            << "\"reserved_11\":" << JsonScalar(data.reserved_11) << ','
+            << "\"reserved_12\":" << JsonScalar(data.reserved_12) << ','
+            << "\"enemy_infantry_3_hp_buff\":" << JsonScalar(data.enemy_infantry_3_hp_buff) << ','
+            << "\"enemy_infantry_3_cooling_buff\":" << JsonScalar(data.enemy_infantry_3_cooling_buff) << ','
+            << "\"enemy_infantry_3_defence_buff\":" << JsonScalar(data.enemy_infantry_3_defence_buff) << ','
+            << "\"enemy_infantry_3_vulnerability_buff\":" << JsonScalar(data.enemy_infantry_3_vulnerability_buff) << ','
+            << "\"enemy_infantry_3_attack_buff\":" << JsonScalar(data.enemy_infantry_3_attack_buff) << ','
+            << "\"enemy_infantry_4_hp_buff\":" << JsonScalar(data.enemy_infantry_4_hp_buff) << ','
+            << "\"enemy_infantry_4_cooling_buff\":" << JsonScalar(data.enemy_infantry_4_cooling_buff) << ','
+            << "\"enemy_infantry_4_defence_buff\":" << JsonScalar(data.enemy_infantry_4_defence_buff) << ','
+            << "\"enemy_infantry_4_vulnerability_buff\":" << JsonScalar(data.enemy_infantry_4_vulnerability_buff) << ','
+            << "\"enemy_infantry_4_attack_buff\":" << JsonScalar(data.enemy_infantry_4_attack_buff) << ','
+            << "\"enemy_sentry_hp_buff\":" << JsonScalar(data.enemy_sentry_hp_buff) << ','
+            << "\"enemy_sentry_cooling_buff\":" << JsonScalar(data.enemy_sentry_cooling_buff) << ','
+            << "\"enemy_sentry_defence_buff\":" << JsonScalar(data.enemy_sentry_defence_buff) << ','
+            << "\"enemy_sentry_vulnerability_buff\":" << JsonScalar(data.enemy_sentry_vulnerability_buff) << ','
+            << "\"enemy_sentry_attack_buff\":" << JsonScalar(data.enemy_sentry_attack_buff) << ','
+            << "\"enemy_sentry_posture\":" << JsonScalar(data.enemy_sentry_posture) << ','
+            << "\"enemy_heavyengineer_status\":" << JsonScalar(data.enemy_heavyengineer_status) << ','
+            << "\"reserved_37\":" << JsonScalar(data.reserved_37) << ','
+            << "\"enemy_infantry_3_status\":" << JsonScalar(data.enemy_infantry_3_status) << ','
+            << "\"enemy_infantry_4_status\":" << JsonScalar(data.enemy_infantry_4_status) << ','
+            << "\"enemy_sentry_status\":" << JsonScalar(data.enemy_sentry_status) << ','
+            << "\"enemy_fortify_center_x\":" << JsonScalar(data.enemy_fortify_center_x) << ','
+            << "\"enemy_fortify_center_y\":" << JsonScalar(data.enemy_fortify_center_y) << ','
+            << "\"enemy_fortify_radius\":" << JsonScalar(data.enemy_fortify_radius) << "}";
+      } else if constexpr (revision == rm::device::RefereeRevision::kNewV200) {
         oss << "{"
             << "\"enemy_hero_hp_buff\":" << JsonScalar(data.enemy_hero_hp_buff) << ','
             << "\"enemy_hero_cooling_buff\":" << JsonScalar(data.enemy_hero_cooling_buff) << ','
@@ -771,7 +913,8 @@ template <rm::device::RefereeRevision revision>
 class RefereeMainLogger {
  public:
   using Protocol = rm::device::RefereeProtocol<revision>;
-  static_assert(kSupportedMainLogRevision<revision>, "RefereeMainLogger only supports kNewV120 and kNewV200");
+  static_assert(kSupportedMainLogRevision<revision>,
+                "RefereeMainLogger only supports kNewV120, kNewV200, and k2027V100");
 
   /**
    * @brief 创建主协议日志器
