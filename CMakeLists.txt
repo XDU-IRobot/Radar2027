@@ -28,11 +28,6 @@ target_include_directories(radar PRIVATE
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/src
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/etl/include
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/eternal/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/eigen
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/kalman/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/rpc_core/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/hipnuc_sdk/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/ardupilot_filter_lib
 )
 
 target_compile_definitions(radar PRIVATE
@@ -44,11 +39,6 @@ target_include_directories(enemy_key_tcp_simulator PRIVATE
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/src
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/etl/include
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/eternal/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/eigen
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/kalman/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/rpc_core/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/hipnuc_sdk/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/ardupilot_filter_lib
 )
 
 target_include_directories(ui_sender_test PRIVATE
@@ -56,11 +46,6 @@ target_include_directories(ui_sender_test PRIVATE
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/src
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/etl/include
     ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/eternal/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/eigen
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/kalman/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/rpc_core/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/hipnuc_sdk/include
-    ${CMAKE_SOURCE_DIR}/include/radar/libs/librm/libs/ardupilot_filter_lib
 )
 
 target_compile_definitions(ui_sender_test PRIVATE
