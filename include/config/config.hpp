@@ -33,19 +33,22 @@ enum class RefereeInputSourceMode {
 constexpr bool kReplayLoop = true;
 
 /// 裁判系统协议版本唯一配置入口。
-constexpr auto kRefereeRevision = rm::device::RefereeRevision::k2027V100;
+constexpr auto kRefereeRevision = rm::device::RefereeRevision::kNewV200;
+
 /// 项目默认日志模式。
 constexpr auto kRadarLogMode = RadarLogMode::kMatch;
 /// 调试模式下允许缺失输入接口，缺失链路对应状态按 0 值处理。
 constexpr bool kDebugAllowMissingInterfaces = kRadarLogMode == RadarLogMode::kDebug;
 /// 是否保留逐帧主协议结构体快照日志；比赛模式下关闭以减轻主线程格式化压力。
 constexpr bool kEnableMainProtocolStructLog = kRadarLogMode == RadarLogMode::kDebug;
+
 /// 裁判系统默认串口波特率。
 constexpr int kDefaultRefereeBaud = 115200;
 /// 常规链路优先尝试的串口设备。
 constexpr const char *kDefaultRefereeDevice = "/dev/ttyUSB0";
 /// 串口设备名大小写差异时使用的回退设备。
 constexpr const char *kFallbackRefereeDevice = "/dev/ttyusb0";
+
 /// 串口主协议输入模式。
 constexpr auto kSerialRefereeInputMode = RefereeInputSourceMode::kReal;
 /// 串口主协议回放文件路径，模式为 `kFile` 时必须非空。
@@ -57,6 +60,7 @@ constexpr int kSerialRefereeReplayRateHz = 10;
 constexpr const char *kTcpLocalBindAddress = "";
 /// TCP 对端服务端地址；`8001/8002/8003` 均主动连接到该地址。
 constexpr const char *kTcpServerAddress = "192.168.12.99";
+
 /// 信息波输入模式，仅覆盖 `8001`。
 constexpr auto kInfoWaveInputMode = RefereeInputSourceMode::kReal;
 /// 信息波 `8001` 回放文件路径，模式为 `kFile` 时必须非空。
@@ -66,6 +70,7 @@ constexpr const char *kInfoWaveReplayFile =
 constexpr int kInfoWaveReplayRateHz = 50;
 /// 信息波位置数据对端服务端端口。
 constexpr int kInfoWaveTcpServerPort = 8001;
+
 /// 敌方一级密钥输入模式，仅覆盖 `8002`。
 constexpr auto kEnemyLevel1KeyInputMode = RefereeInputSourceMode::kReal;
 /// 敌方一级密钥 `8002` 回放文件路径，模式为 `kFile` 时必须非空。
@@ -75,6 +80,7 @@ constexpr const char *kEnemyLevel1KeyReplayFile =
 constexpr int kEnemyLevel1KeyReplayRateHz = 10;
 /// 敌方一级密钥对端服务端端口。
 constexpr int kEnemyLevel1KeyTcpServerPort = 8002;
+
 /// 敌方二级密钥输入模式，仅覆盖 `8003`。
 constexpr auto kEnemyLevel2KeyInputMode = RefereeInputSourceMode::kReal;
 /// 敌方二级密钥 `8003` 回放文件路径，模式为 `kFile` 时必须非空。
@@ -87,6 +93,7 @@ constexpr int kEnemyLevel2KeyTcpServerPort = 8003;
 constexpr const char *kEnemyKeySimulatorBindAddress = "0.0.0.0";
 /// `0x0305` 最小发送间隔。
 constexpr int kMapRobotMinSendIntervalMs = 200;
+
 /// 临时联调：固定 `0x0305` 全部己方机器人坐标，验证选手端地图显示链路。
 constexpr bool kMapRobotUseFixedAllyRobotPositions = false;
 /// 临时固定的己方机器人坐标，顺序为重装工程、保留位、3 号步兵、4 号步兵、保留位、哨兵，单位 cm。
@@ -104,6 +111,7 @@ constexpr bool kMapRobotUseFixedAllySentryPosition = false;
 constexpr rm::u16 kMapRobotFixedAllySentryPositionX = 1000;
 /// 临时固定的己方哨兵 Y 坐标，单位 cm。
 constexpr rm::u16 kMapRobotFixedAllySentryPositionY = 1000;
+
 /// 双倍易伤保底机制总开关。
 constexpr bool kDoubleDebuffFallbackEnabled = true;
 /// 保底第一阶段阈值：比赛中剩余时间降到该值仍未触发双倍易伤时，请求第一次（`radar_cmd` 目标 1）。
@@ -118,6 +126,7 @@ constexpr int kDoubleDebuffFallbackMinIncrementIntervalMs = 1000;
 constexpr bool kDoubleDebuffFallbackStopOnConfirm = true;
 /// `0x0001` 状态超过该时限视为过期，保底机制不再依据其时间判断。
 constexpr int kGameStatusStaleTimeoutMs = 3000;
+
 /// 是否只在 `0x0001` 阶段为“比赛中”时才提交敌方密钥（`password_cmd=2`）。
 /// @note 赛前提交不会被裁判系统采纳，却会消耗掉本地密钥候选，因此默认开启。
 ///       文件回放或缺失 `0x0001` 的联调场景可临时关掉。
