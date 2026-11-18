@@ -28,7 +28,9 @@
 #ifndef PROTOCOL_USER_HPP
 #define PROTOCOL_USER_HPP
 
-#include <librm.hpp>
+#include "librm/core/typedefs.hpp"
+#include "librm/device/referee/protocol.hpp"
+#include "librm/modules/crc.hpp"
 
 #include <cstddef>
 #include <typeindex>
@@ -417,8 +419,8 @@ struct RefereeSubCmdId {
   constexpr static u16 kEnemyGoldCoinRFID = 0x0204;
   constexpr static u16 kEnemyRobotBuff = 0x0205;
   constexpr static u16 kAllRadarInfo = 0x0206;
-  
-  
+
+
   // 云台手大吊射
   constexpr static u16 kHero2Drone = 0x0207;
   constexpr static u16 kDrone2Hero = 0x0208;

@@ -1,0 +1,58 @@
+# 电机位置校准器
+
+本例程演示如何使用 librm 中的 `MotorCalibrator` 类处理电机的反转和零点偏移问题。
+
+`MotorCalibrator` 提供了电机位置的逻辑坐标系与物理坐标系之间的转换。当电机安装方向与控制逻辑方向不一致，或电机零点位置需要偏移时，可以使用该类进行校准。
+
+## 代码示例
+
+```cpp
+#include "can.h"
+#include "cmsis_os.h"
+
+#include <librm.hpp>
+
+extern "C" void GimbalTask(const void *pv_arg) {
+  rm::hal::Can can1(hcan1);
+  rm::device::GM6020 yaw_motor(can1, 1);
+  can1.SetFilter(0, 0);
+  can1.Begin();
+
+  // 步骤 1：手动将云台转到正前方（逻辑零点位置），读取编码器值
+  // 假设读到 2048
+  // 步骤 2：确认电机转动方向，如果与预期相反则第一个参数设为 true
+
+  // 创建校准器：参数为 (是否反转, 零点偏移)
+  rm::modules::MotorCalibrator calibrator(false, 2048.0f);
+
+  // 创建 PID 控制器
+  rm::modules::PID pid(5, 0, 0, 30000, 0);
+
+  for (;;) {
+    // 读取实际位置并转换为逻辑位置
+    float real_pos = yaw_motor.encoder();
+    float logical_pos = calibrator.RealToLogical(real_pos);
+
+    // 在逻辑坐标系下控制（0 表示正前方）
+    pid.Update(0.0f, logical_pos);
+
+    yaw_motor.SetCurrent(static_cast<int16_t>(pid.out()));
+    rm::device::DjiMotorBase::SendCommand();
+
+    osDelay(1);
+  }
+}
+```
+
+## 坐标变换
+
+```cpp
+// 实际位置 → 逻辑位置
+float logical_pos = calibrator.RealToLogical(real_pos);
+
+// 逻辑位置 → 实际位置
+float real_pos = calibrator.LogicalToReal(logical_pos);
+
+// 速度转换（只需考虑反转）
+float real_vel = calibrator.reverse() ? -logical_vel : logical_vel;
+```

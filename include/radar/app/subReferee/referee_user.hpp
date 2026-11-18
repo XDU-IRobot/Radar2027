@@ -29,7 +29,7 @@
 #define LIBRM_DEVICE_REFEREE_USER_HPP
 
 #include "protocol_user.hpp"
-#include <librm.hpp>
+#include "librm/device/referee/referee.hpp"
 
 #include <cstring>
 

@@ -1,3 +1,6 @@
-[submodule "include/radar/libs/librm"]
-	path = include/radar/libs/librm
-	url = https://github.com/XDU-IRobot/librm.git
+[submodule "include/radar/libs/librm/libs/eternal"]
+	path = include/radar/libs/librm/libs/eternal
+	url = https://github.com/mapbox/eternal.git
+[submodule "include/radar/libs/librm/libs/etl"]
+	path = include/radar/libs/librm/libs/etl
+	url = https://github.com/ETLCPP/etl.git
